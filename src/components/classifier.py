@@ -18,11 +18,12 @@ class PortfolioPerformanceCategory(NamedTuple):
 
 class PortfolioPerformanceFile:
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, domain):
         self.filepath = filepath
         self.pp_tree = ET.parse(filepath)
         self.pp = self.pp_tree.getroot()
         self.securities = None
+        self.domain = domain
 
     def get_security(self, security_xpath):
         """return a security object """
@@ -135,7 +136,7 @@ class PortfolioPerformanceFile:
             for sec_xpath in list(set(sec_xpaths)):
                 security = self.get_security(sec_xpath)
                 if security is not None:
-                    security_h = security.load_holdings()
+                    security_h = security.load_holdings(self.domain)
                     if security_h.secid != '':
                         self.securities.append(security)
         return self.securities

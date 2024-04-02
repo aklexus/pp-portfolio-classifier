@@ -4,8 +4,6 @@ import re
 
 import requests
 
-from src.utils.CONSTANTS import DOMAIN_DEFAULT
-
 
 class Isin2secid:
     mapping = dict()
@@ -25,10 +23,10 @@ class Isin2secid:
             json.dump(Isin2secid.mapping, f, indent=1, sort_keys=True)
 
     @staticmethod
-    def get_secid(isin):
+    def get_secid(isin, domain):
         cached_secid = Isin2secid.mapping.get(isin, "-")
         if cached_secid == "-" or len(cached_secid.split("|")) < 3:
-            url = f"https://www.morningstar.{DOMAIN_DEFAULT}/en/util/SecuritySearch.ashx"
+            url = f"https://www.morningstar.{domain}/en/util/SecuritySearch.ashx"
             payload = {'q': isin, 'preferedList': '', 'source': 'nav', 'moduleId': 6, 'ifIncludeAds': False,
                        'usrtType': 'v'}
             headers = {'accept': '*/*', 'accept-encoding': 'gzip, deflate, br',
@@ -38,7 +36,7 @@ class Isin2secid:
             if response:
                 secid = re.search('\{"i":"([^"]+)"', response).group(1)
                 secid_type = response.split("|")[2].lower()
-                secid_type_domain = secid + "|" + secid_type + "|" + DOMAIN_DEFAULT
+                secid_type_domain = secid + "|" + secid_type + "|" + domain
                 Isin2secid.mapping[isin] = secid_type_domain
             else:
                 secid_type_domain = '||'
