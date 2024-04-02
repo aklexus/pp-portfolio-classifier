@@ -6,8 +6,8 @@ from xml.etree import ElementTree as ET
 
 from jinja2 import Environment, BaseLoader
 
-from components.holdings import Security
-from utils.CONSTANTS import COLORS
+from src.components.holdings import Security
+from src.utils.CONSTANTS import COLORS
 
 
 class PortfolioPerformanceCategory(NamedTuple):

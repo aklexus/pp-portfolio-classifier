@@ -4,7 +4,7 @@ import re
 
 import requests
 
-from utils.CONSTANTS import DOMAIN_DEFAULT
+from src.utils.CONSTANTS import DOMAIN_DEFAULT
 
 
 class Isin2secid:

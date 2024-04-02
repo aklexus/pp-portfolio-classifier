@@ -7,9 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 from jsonpath_ng import parse
 
-from components.isin2secid import Isin2secid
-from utils.CONSTANTS import DOMAIN_DEFAULT
-from utils.taxonomies import taxonomies
+from src.components.isin2secid import Isin2secid
+from src.utils.CONSTANTS import DOMAIN_DEFAULT
+from src.utils.taxonomies import taxonomies
 
 
 class Security:

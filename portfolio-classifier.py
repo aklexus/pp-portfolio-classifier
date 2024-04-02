@@ -2,9 +2,9 @@ import argparse
 
 import requests_cache
 
-from components.classifier import PortfolioPerformanceFile
-from components.isin2secid import Isin2secid
-from utils.taxonomies import taxonomies
+from src.components.classifier import PortfolioPerformanceFile
+from src.components.isin2secid import Isin2secid
+from src.utils.taxonomies import taxonomies
 
 requests_cache.install_cache(expire_after=60 * 60 * 24)  # cache downloaded files for a day
 requests_cache.remove_expired_responses()
