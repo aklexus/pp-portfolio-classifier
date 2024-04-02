@@ -43,4 +43,6 @@ if __name__ == '__main__':
         for taxonomy in taxonomies:
             pp_file.add_taxonomy(taxonomy)
         Isin2secid.save_cache()
-        pp_file.write_xml(args.output_file)
+        # Write the enhanced portfolio
+        output_path = args.output_file
+        pp_file.write_xml(output_path)
