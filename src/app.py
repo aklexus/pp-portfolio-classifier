@@ -1,4 +1,6 @@
 import argparse
+import logging
+from os import path
 
 import requests_cache
 
@@ -10,6 +12,10 @@ requests_cache.install_cache(expire_after=60 * 60 * 24)  # cache downloaded file
 requests_cache.remove_expired_responses()
 
 if __name__ == '__main__':
+    logging.basicConfig(filename=path.join('_tmp', 'app.log'), filemode='a+',
+                        format='%(asctime)s-%(levelname)s-%(message)s', level=logging.INFO)
+    logging.info('Starting the app')
+
     parser = argparse.ArgumentParser(  # usage="%(prog) <input_file> [<output_file>] [-d domain]",
         description='\r\n'.join(["reads a portfolio performance xml file and auto-classifies",
                                  "the securities in it by asset-type, stock-style, sector, holdings, region and country weights",
