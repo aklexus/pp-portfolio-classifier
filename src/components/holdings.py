@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 from jsonpath_ng import parse
 
 from src.components.isin2secid import Isin2secid
-from src.utils.CONSTANTS import DOMAIN_DEFAULT
 from src.utils.taxonomies import taxonomies
 
 
@@ -18,9 +17,9 @@ class Security:
         self.__dict__.update(kwargs)
         self.holdings = []
 
-    def load_holdings(self):
+    def load_holdings(self, domain):
         if len(self.holdings) == 0:
-            self.holdings = SecurityHoldingReport()
+            self.holdings = SecurityHoldingReport(domain)
             self.holdings.load(isin=self.ISIN, secid=self.secid)
         return self.holdings
 
@@ -40,8 +39,9 @@ class Holding(NamedTuple):
 
 
 class SecurityHoldingReport:
-    def __init__(self):
+    def __init__(self, domain):
         self.secid = ''
+        self.domain = domain
         pass
 
     def get_bearer_token(self, secid, domain):
@@ -75,10 +75,10 @@ class SecurityHoldingReport:
             self.grouping[grouping_name] = {k: v * long_equity for k, v in self.grouping[grouping_name].items()}
 
     def load(self, isin, secid):
-        secid, secid_type, domain = Isin2secid.get_secid(isin)
+        secid, secid_type, domain = Isin2secid.get_secid(isin, self.domain)
         if secid == '':
             print(
-                f"isin {isin} not found in Morningstar for domain '{DOMAIN_DEFAULT}', skipping it... Try another domain with -d <domain>")
+                f"isin {isin} not found in Morningstar for domain '{self.domain}', skipping it... Try another domain with -d <domain>")
             return
         elif secid_type == "stock":
             print(f"isin {isin} is a stock, skipping it...")

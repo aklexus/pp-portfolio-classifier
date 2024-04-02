@@ -6,6 +6,7 @@ import requests_cache
 
 from src.components.classifier import PortfolioPerformanceFile
 from src.components.isin2secid import Isin2secid
+from src.utils.CONSTANTS import DOMAIN_DEFAULT
 from src.utils.taxonomies import taxonomies
 
 requests_cache.install_cache(expire_after=60 * 60 * 24)  # cache downloaded files for a day
@@ -24,7 +25,7 @@ if __name__ == '__main__':
     # Morningstar domain where your securities can be found
     # e.g. es for spain, de for germany, fr for france...
     # this is only used to find the corresponding secid from the ISIN
-    parser.add_argument('-d', default='de', dest='domain', type=str,
+    parser.add_argument('-d', default=DOMAIN_DEFAULT, dest='domain', type=str,
                         help='Morningstar domain from which to retrieve the secid (default: es)')
 
     parser.add_argument('input_file', metavar='input_file', type=str, help='path to unencrypted pp.xml file')
@@ -37,9 +38,9 @@ if __name__ == '__main__':
     if "input_file" not in args:
         parser.print_help()
     else:
-        DOMAIN = args.domain
+        domain = args.domain
         Isin2secid.load_cache()
-        pp_file = PortfolioPerformanceFile(args.input_file)
+        pp_file = PortfolioPerformanceFile(args.input_file, domain)
         for taxonomy in taxonomies:
             pp_file.add_taxonomy(taxonomy)
         Isin2secid.save_cache()
