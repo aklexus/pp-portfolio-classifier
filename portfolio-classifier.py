@@ -1,18 +1,19 @@
-import xml.etree.ElementTree as ET
-from xml.sax.saxutils import escape
-import uuid
 import argparse
+import json
+import os
 import re
-from jsonpath_ng import parse
-from typing import NamedTuple
-from itertools import cycle
+import uuid
+import xml.etree.ElementTree as ET
 from collections import defaultdict
-from jinja2 import Environment, BaseLoader
+from itertools import cycle
+from typing import NamedTuple
+from xml.sax.saxutils import escape
+
 import requests
 import requests_cache
-from bs4 import BeautifulSoup 
-import os
-import json
+from bs4 import BeautifulSoup
+from jinja2 import Environment, BaseLoader
+from jsonpath_ng import parse
 
 
 requests_cache.install_cache(expire_after=86400) #cache downloaded files for a day
